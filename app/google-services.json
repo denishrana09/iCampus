@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "90260122258",
+    "firebase_url": "https://icampus-2abca.firebaseio.com",
+    "project_id": "icampus-2abca",
+    "storage_bucket": "icampus-2abca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90260122258:android:359180fbab561203",
+        "android_client_info": {
+          "package_name": "com.example.denish.icampus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90260122258-s46jgtaqmkat7je70gm7435lm0nrnhet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.denish.icampus",
+            "certificate_hash": "8b0496de8863549acbc7808d54167981fa9d213b"
+          }
+        },
+        {
+          "client_id": "90260122258-0mkg9uehmmtm0k9rpa868kd24k6dlqgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0gUFZh0bn1qKq91SMvhUDITJ_1CUJmCM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90260122258-0mkg9uehmmtm0k9rpa868kd24k6dlqgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
