@@ -13,6 +13,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -29,7 +31,9 @@ public class MainActivity extends BaseActivity {
     private DatabaseReference mRoleDBReference;
     private ChildEventListener mChildEventListener;
 
-    private String mUsername;
+    private boolean accessGrant=false;
+
+    private String mUsername,mEmail;
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 1;
 
@@ -44,7 +48,7 @@ public class MainActivity extends BaseActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-        mRoleDBReference = mFirebaseDatabase.getReference().child("role");
+        mRoleDBReference = mFirebaseDatabase.getReference();
 
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -53,13 +57,13 @@ public class MainActivity extends BaseActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    //onSignedInInitialized(user.getDisplayName());
                     mUsername = user.getDisplayName();
+                    mEmail = user.getEmail();
                     Log.d(TAG, "onAuthStateChanged: user name : "+ mUsername);
-
+                    onSignedInInitialized();
                 } else {
                     // User is signed out
-                    //onSignedOutCleanup();
+                    onSignedOutCleanup();
                     Log.d(TAG, "onAuthStateChanged: starting AuthUI");
                     startActivityForResult(
                             AuthUI.getInstance()
@@ -72,6 +76,17 @@ public class MainActivity extends BaseActivity {
                 }
             }
         };
+
+    }
+
+    private void onSignedOutCleanup() {
+        if(mChildEventListener != null) {
+            mRoleDBReference.removeEventListener(mChildEventListener);
+            mChildEventListener = null;
+        }
+    }
+
+    private void onSignedInInitialized() {
 
     }
 
@@ -105,6 +120,7 @@ public class MainActivity extends BaseActivity {
         if(requestCode == RC_SIGN_IN){
             if(resultCode == RESULT_OK){
             Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
+
             }
             else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(this, "Signed In Cancelled", Toast.LENGTH_SHORT).show();
