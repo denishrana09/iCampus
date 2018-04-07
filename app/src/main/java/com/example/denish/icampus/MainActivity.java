@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.denish.icampus.Model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends BaseActivity {
@@ -28,7 +30,7 @@ public class MainActivity extends BaseActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mRoleDBReference;
+    private DatabaseReference mUserRef;
     private ChildEventListener mChildEventListener;
 
     private boolean accessGrant=false;
@@ -36,6 +38,7 @@ public class MainActivity extends BaseActivity {
     private String mUsername,mEmail;
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 1;
+    public ArrayList<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,9 @@ public class MainActivity extends BaseActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
-        mRoleDBReference = mFirebaseDatabase.getReference();
+        mUserRef = mFirebaseDatabase.getReference().child("user");
 
-
+        list = new ArrayList<>(5);
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -59,7 +62,7 @@ public class MainActivity extends BaseActivity {
                     // User is signed in
                     mUsername = user.getDisplayName();
                     mEmail = user.getEmail();
-                    Log.d(TAG, "onAuthStateChanged: user name : "+ mUsername);
+                    Log.d(TAG, "onAuthStateChanged: User name : "+ mUsername);
                     onSignedInInitialized();
                 } else {
                     // User is signed out
@@ -81,13 +84,49 @@ public class MainActivity extends BaseActivity {
 
     private void onSignedOutCleanup() {
         if(mChildEventListener != null) {
-            mRoleDBReference.removeEventListener(mChildEventListener);
+            mUserRef.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
     }
 
-    private void onSignedInInitialized() {
+    private void onSignedInInitialized(){
+//        Toast.makeText(this, "SignIn Initialized : " + mUsername + ", " + mEmail, Toast.LENGTH_SHORT).show();
+//        User user = new User(mUsername,"false",mEmail);
+//        mUserRef.push().setValue(user);
+        if(mChildEventListener == null) {
+            mChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    User user= dataSnapshot.getValue(User.class);
+                    Log.d(TAG, "onChildAdded: " + user.toString());
+                    list.add(user.getEmail());
+                    Log.d(TAG, "onChildAdded: added in list " + user.getEmail());
+                }
 
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+
+            mUserRef.addChildEventListener(mChildEventListener);
+
+        }
     }
 
     @Override
@@ -119,8 +158,7 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_SIGN_IN){
             if(resultCode == RESULT_OK){
-            Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
             }
             else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(this, "Signed In Cancelled", Toast.LENGTH_SHORT).show();
