@@ -21,7 +21,10 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
-
+        <activity android:name=".AddFeedActivity" />
+        <activity android:name=".FeedActivity" />
+        <activity android:name=".ProfHomeActivity" />
+        <activity android:name=".StudentHomeActivity"></activity>
     </application>
 
 </manifest>

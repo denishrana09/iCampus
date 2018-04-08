@@ -1,13 +1,18 @@
 package com.example.denish.icampus;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.denish.icampus.Model.User;
 import com.firebase.ui.auth.AuthUI;
@@ -23,6 +28,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.example.denish.icampus.FirebaseUtil.addUserToFB;
+
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
@@ -34,11 +41,14 @@ public class MainActivity extends BaseActivity {
     private ChildEventListener mChildEventListener;
 
     private boolean accessGrant=false;
+    Boolean isFirstRun;
 
-    private String mUsername,mEmail;
+    private String mUsername,mEmail,specialEmail;
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 1;
     public ArrayList<String> list;
+
+    Button stu,prof;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,18 @@ public class MainActivity extends BaseActivity {
 
         mUserRef = mFirebaseDatabase.getReference().child("user");
 
+        prof = findViewById(R.id.prof_btn);
+        stu = findViewById(R.id.stu_btn);
+
+        isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if(isFirstRun) {
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("pushed", "false");
+            editor.apply();
+        }
         list = new ArrayList<>(5);
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -62,8 +84,10 @@ public class MainActivity extends BaseActivity {
                     // User is signed in
                     mUsername = user.getDisplayName();
                     mEmail = user.getEmail();
+                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    pref.edit().putString("name",mUsername).apply();
                     Log.d(TAG, "onAuthStateChanged: User name : "+ mUsername);
-                    onSignedInInitialized();
+                    onSignedInInitialized(mUsername,mEmail);
                 } else {
                     // User is signed out
                     onSignedOutCleanup();
@@ -80,6 +104,24 @@ public class MainActivity extends BaseActivity {
             }
         };
 
+//        if(!isFirstRun && accessGrant==false){
+//            Toast.makeText(this, "AccessGrant False", Toast.LENGTH_SHORT).show();
+//        }
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).apply();
+
+        stu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),StudentHomeActivity.class));
+            }
+        });
+        prof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ProfHomeActivity.class));
+            }
+        });
     }
 
     private void onSignedOutCleanup() {
@@ -89,43 +131,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void onSignedInInitialized(){
-//        Toast.makeText(this, "SignIn Initialized : " + mUsername + ", " + mEmail, Toast.LENGTH_SHORT).show();
-//        User user = new User(mUsername,"false",mEmail);
-//        mUserRef.push().setValue(user);
-        if(mChildEventListener == null) {
-            mChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    User user= dataSnapshot.getValue(User.class);
-                    Log.d(TAG, "onChildAdded: " + user.toString());
-                    list.add(user.getEmail());
-                    Log.d(TAG, "onChildAdded: added in list " + user.getEmail());
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            };
-
-            mUserRef.addChildEventListener(mChildEventListener);
-
+    private void onSignedInInitialized(String n,String e){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        String ans = pref.getString("pushed", null);
+        if(ans.equals("false")) {
+            User user = new User(n, "true", e);
+            mUserRef.push().setValue(user);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("pushed", "true");
+            editor.apply();
         }
     }
 
@@ -140,6 +154,8 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+
+
     }
 
     @Override
@@ -159,6 +175,8 @@ public class MainActivity extends BaseActivity {
         if(requestCode == RC_SIGN_IN){
             if(resultCode == RESULT_OK){
                 Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
+                //addUserToFB();
+                //Log.d(TAG, "onActivityResult: after method");
             }
             else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(this, "Signed In Cancelled", Toast.LENGTH_SHORT).show();
@@ -166,5 +184,11 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
+//    public void toIntent(){
+//        if(accessGrant==true){
+//            startActivity(new Intent(getApplicationContext(),AddFeedActivity.class));
+//        }
+//    }
 
 }
