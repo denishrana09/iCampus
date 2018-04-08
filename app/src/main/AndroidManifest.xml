@@ -24,7 +24,8 @@
         <activity android:name=".AddFeedActivity" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".ProfHomeActivity" />
-        <activity android:name=".StudentHomeActivity"></activity>
+        <activity android:name=".StudentHomeActivity" />
+        <activity android:name=".ChatActivity"></activity>
     </application>
 
 </manifest>

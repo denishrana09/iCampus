@@ -35,7 +35,6 @@ public class MessageItem implements Parcelable {
         this.name = name;
     }
 
-
     @Override
     public int describeContents() {
         return 0;

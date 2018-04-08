@@ -28,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.example.denish.icampus.FirebaseUtil.addUserToFB;
 
 public class MainActivity extends BaseActivity {
 
