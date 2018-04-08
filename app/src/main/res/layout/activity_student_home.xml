@@ -10,21 +10,31 @@
         android:id="@+id/stu_feed_btn"
         android:text="Feeds"
         android:layout_above="@+id/stu_chat_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_centerInParent="true"
-        android:layout_height="wrap_content" />
+        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFF"/>
 
     <Button
         android:id="@+id/stu_chat_btn"
         android:text="Chat Room"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFF"/>
+
     <Button
         android:text="Event List"
         android:id="@+id/stu_event_btn"
         android:layout_centerInParent="true"
         android:layout_below="@id/stu_chat_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#FFF"/>
 </RelativeLayout>

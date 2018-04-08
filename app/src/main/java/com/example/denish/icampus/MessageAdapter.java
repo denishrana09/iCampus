@@ -36,6 +36,9 @@ public class MessageAdapter extends ArrayAdapter<FriendlyMessage> {
         if(curUser.equals(message.getName())){
             messageTextView.setGravity(Gravity.END);
             authorTextView.setGravity(Gravity.END);
+        }else {
+            messageTextView.setGravity(Gravity.START);
+            authorTextView.setGravity(Gravity.START);
         }
         messageTextView.setVisibility(View.VISIBLE);
         messageTextView.setText(message.getText());

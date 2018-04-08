@@ -24,7 +24,6 @@ public class ProfHomeActivity extends AppCompatActivity {
         add_feed_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfHomeActivity.this, "inside add Feed OnClick", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ProfHomeActivity.this,AddFeedActivity.class));
             }
         });

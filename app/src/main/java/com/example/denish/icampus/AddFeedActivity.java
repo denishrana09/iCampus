@@ -40,13 +40,16 @@ public class AddFeedActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AnnounceDataModel model = new AnnounceDataModel(et.getText().toString(),name);
-                Log.d(TAG, "onClick: "+ et.getText().toString() + ", " + name);
-                mRef.push().setValue(model);
-                Toast.makeText(AddFeedActivity.this, "Feed Added", Toast.LENGTH_SHORT).show();
+                if(et.getText().toString().length() >0) {
+                    AnnounceDataModel model = new AnnounceDataModel(et.getText().toString(), name);
+                    mRef.push().setValue(model);
+                    Toast.makeText(AddFeedActivity.this, "Feed Added", Toast.LENGTH_SHORT).show();
+                    et.setText("");
+                }
+                else {
+                    Toast.makeText(AddFeedActivity.this, "Please Enter Description", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-        //finish();
     }
 }
