@@ -15,6 +15,7 @@ public class ProfHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prof_home);
+        getSupportActionBar().setTitle("Professor");
         //Toast.makeText(this, "Professor", Toast.LENGTH_SHORT).show();
         add_feed_btn = findViewById(R.id.add_feed_prof_btn);
         view_feed_btn = findViewById(R.id.view_feed_prof_btn);

@@ -25,6 +25,7 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+        getSupportActionBar().setTitle("Events");
         arr = new ArrayList<>();
         mFdb = FirebaseDatabase.getInstance();
         mRef = mFdb.getReference().child("event");

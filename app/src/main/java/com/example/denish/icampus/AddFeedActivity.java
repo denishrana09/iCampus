@@ -26,7 +26,7 @@ public class AddFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_feed);
-        getSupportActionBar().setTitle("Add Annoucnment");
+        getSupportActionBar().setTitle("Add Announcement");
         mFdb = FirebaseDatabase.getInstance();
         mRef = mFdb.getReference().child("ann");
 

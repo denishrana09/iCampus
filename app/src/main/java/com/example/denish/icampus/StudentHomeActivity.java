@@ -13,6 +13,7 @@ public class StudentHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home);
+        getSupportActionBar().setTitle("Student");
         Button feed = findViewById(R.id.stu_feed_btn);
         Button chat = findViewById(R.id.stu_chat_btn);
         Button event = findViewById(R.id.stu_event_btn);
