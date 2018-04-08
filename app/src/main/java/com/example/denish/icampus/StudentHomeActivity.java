@@ -15,6 +15,7 @@ public class StudentHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_home);
         Button feed = findViewById(R.id.stu_feed_btn);
         Button chat = findViewById(R.id.stu_chat_btn);
+        Button event = findViewById(R.id.stu_event_btn);
 
         feed.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,6 +28,13 @@ public class StudentHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),ChatActivity.class));
+            }
+        });
+
+        event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),EventActivity.class));
             }
         });
     }

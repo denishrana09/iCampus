@@ -9,15 +9,22 @@
     <Button
         android:id="@+id/stu_feed_btn"
         android:text="Feeds"
-        android:layout_centerInParent="true"
+        android:layout_above="@+id/stu_chat_btn"
         android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/stu_chat_btn"
         android:text="Chat Room"
-        android:layout_below="@id/stu_feed_btn"
         android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="Event List"
+        android:id="@+id/stu_event_btn"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/stu_chat_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

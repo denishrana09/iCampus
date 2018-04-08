@@ -4,13 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    tools:context="com.example.denish.icampus.FeedActivity">
-
+    android:padding="10dp"
+    tools:context="com.example.denish.icampus.EventActivity">
     <ListView
-        android:id="@+id/annuncementList"
+        android:id="@+id/eventList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="match_parent"></ListView>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,6 +9,7 @@ public class AnnounceDataModel {
     String by;
 
     public AnnounceDataModel() {
+
     }
 
     public AnnounceDataModel(String desc, String by){
