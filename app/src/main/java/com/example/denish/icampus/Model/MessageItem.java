@@ -10,7 +10,6 @@ import android.os.Parcelable;
 public class MessageItem implements Parcelable {
     private String text;
     private String name;
-    private String photoUrl;
 
     public MessageItem() {
     }
@@ -18,7 +17,6 @@ public class MessageItem implements Parcelable {
     public MessageItem(String text, String name, String photoUrl,String canAccess) {
         this.text = text;
         this.name = name;
-        this.photoUrl = photoUrl;
     }
 
     public String getText() {
@@ -37,13 +35,6 @@ public class MessageItem implements Parcelable {
         this.name = name;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
 
     @Override
     public int describeContents() {
@@ -54,13 +45,11 @@ public class MessageItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.text);
         dest.writeString(this.name);
-        dest.writeString(this.photoUrl);
     }
 
     protected MessageItem(Parcel in) {
         this.text = in.readString();
         this.name = in.readString();
-        this.photoUrl = in.readString();
     }
 
     public static final Parcelable.Creator<MessageItem> CREATOR = new Parcelable.Creator<MessageItem>() {

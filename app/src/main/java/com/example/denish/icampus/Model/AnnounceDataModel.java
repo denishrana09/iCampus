@@ -7,6 +7,10 @@ package com.example.denish.icampus.Model;
 public class AnnounceDataModel {
     String desc;
     String by;
+
+    public AnnounceDataModel() {
+    }
+
     public AnnounceDataModel(String desc, String by){
         this.desc = desc;
         this.by = by;

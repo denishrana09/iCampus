@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.denish.icampus.Model.AnnounceDataModel;
 import com.google.firebase.database.DatabaseReference;
@@ -42,9 +43,10 @@ public class AddFeedActivity extends AppCompatActivity {
                 AnnounceDataModel model = new AnnounceDataModel(et.getText().toString(),name);
                 Log.d(TAG, "onClick: "+ et.getText().toString() + ", " + name);
                 mRef.push().setValue(model);
+                Toast.makeText(AddFeedActivity.this, "Feed Added", Toast.LENGTH_SHORT).show();
             }
         });
 
-        finish();
+        //finish();
     }
 }

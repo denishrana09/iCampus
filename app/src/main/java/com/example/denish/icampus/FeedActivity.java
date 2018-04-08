@@ -19,6 +19,7 @@ public class FeedActivity extends AppCompatActivity {
     DatabaseReference mRef;
     ChildEventListener mCEListener;
     ArrayList<AnnounceDataModel> arr;
+    AnnounceAdapter announceAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class FeedActivity extends AppCompatActivity {
         mFdb = FirebaseDatabase.getInstance();
         mRef = mFdb.getReference().child("ann");
         retrive();
-        AnnounceAdapter announceAdapter = new AnnounceAdapter(arr, R.layout.raw_layout, getApplicationContext());
+        announceAdapter = new AnnounceAdapter(arr, R.layout.raw_layout, getApplicationContext());
         ListView l = findViewById(R.id.annuncementList);
         l.setAdapter(announceAdapter);
     }
@@ -38,10 +39,10 @@ public class FeedActivity extends AppCompatActivity {
             mCEListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    AnnounceDataModel user = dataSnapshot.getValue(AnnounceDataModel.class);
-                    Log.d("iCampus", "onChildAdded: " + user.toString());
-                    arr.add(user);
-                    Log.d("iCampus", "onChildAdded: added in list " + user.getDesc());
+                    AnnounceDataModel ann = dataSnapshot.getValue(AnnounceDataModel.class);
+                    //Log.d("iCampus", "onChildAdded: " + user.toString());
+                    announceAdapter.add(ann);
+                    //Log.d("iCampus", "onChildAdded: added in list " + user.getDesc());
                 }
 
                 @Override
